@@ -1,20 +1,37 @@
-// codepractise.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+求两个超级大的数的和
+*/
 
 #include <iostream>
+#include <string>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::string inputa, inputb;
+	std::cin >> inputa >> inputb;
+
+	int len_a = inputa.length();
+	int len_b = inputb.length();
+	int max_len = std::max(len_a, len_b);
+	std::string result(max_len + 1, '0'); // 结果字符串，预留一位进位
+	bool if_carry = false; // 是否有进位
+	for (int i = 0; i < max_len; ++i)
+	{
+		int digit_a = (len_a - 1 - i >= 0) ? inputa[len_a - 1 - i] - '0' : 0;
+		int digit_b = (len_b - 1 - i >= 0) ? inputb[len_b - 1 - i] - '0' : 0;
+		int sum = digit_a + digit_b + (if_carry ? 1 : 0);
+		if_carry = sum >= 10;
+		result[max_len - i] = (sum % 10) + '0'; //s 存储当前位的结果
+	}
+	if (if_carry)
+	{
+		result[0] = '1'; // 如果最后有进位，设置最高位
+		std::cout << result << std::endl;
+	}
+	else
+	{
+		std::cout << result.substr(1) << std::endl; // 输出结果，去掉最高位的 '0'
+	}
+	return 0;
+
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
